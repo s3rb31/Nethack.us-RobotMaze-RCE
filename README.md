@@ -2,7 +2,7 @@
 
 The main file you need to look at is 'solve_maze.py'
 
-## 7. What This Script Actually Does
+## What the script actually does
 
 This is an **automated maze-solver + buffer overflow exploit**.
 
