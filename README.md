@@ -13,7 +13,7 @@ The shellcode will then start a reverse shell and connect back to the attacker.
 Once exploited, the attacker gains **remote command execution** on the target.
 
 
-# Exploit Script Analysis
+# Script 
 
 ## 1. Imports & Setup
 
