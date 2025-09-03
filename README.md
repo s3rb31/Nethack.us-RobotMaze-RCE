@@ -6,7 +6,7 @@ The main file you need to look at is 'solve_maze.py'
 
 This is an **automated maze-solver + buffer overflow exploit**.
 
-It connects to a remote server, completes a mini-game (maze), then uses a vulnerability (likely in how the server processes input) to inject shellcode.
+It connects to a remote server, completes a mini-game (maze), then uses a vulnerability to inject shellcode.
 
 The shellcode will then start a reverse shell and connect back to the attacker.
 
@@ -47,7 +47,7 @@ def shellcode():
   ```python
   b'\xd3\x79\x0b\x08' # address to jump to ECX
   ```
-  is likely an address in the vulnerable process's memory (little-endian format).  
+  is an address in the vulnerable process's memory (little-endian format).  
 
 The function **returns** the complete payload.
 
@@ -187,7 +187,7 @@ if __name__ == "__main__":
 3. Parses the maze into a 2D grid.
 4. Solves it from starting point `(0, 1)`.
 5. Sends the movement string to the server.
-6. Reads additional response data (likely per-move updates).
+6. Reads additional response data.
 7. Sends the shellcode payload.
 8. Prepares to connect to the shell (commented out).
 
