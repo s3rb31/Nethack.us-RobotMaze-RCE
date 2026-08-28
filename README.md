@@ -1,4 +1,4 @@
-# Nethack.us-RobotMaze-RCE - this readme has be generated with the help of AI
+# Nethack.us-RobotMaze-RCE
 
 The main file you need to look at is 'solve_maze.py'
 
@@ -191,3 +191,4 @@ if __name__ == "__main__":
 7. Sends the shellcode payload
 8. Prepares to connect to the shell
 
+this readme has be generated with the help of AI
