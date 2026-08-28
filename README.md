@@ -1,16 +1,16 @@
-# Nethack.us-RobotMaze-RCE
+# Nethack.us-RobotMaze-RCE - this readme has be generated with the help of AI
 
 The main file you need to look at is 'solve_maze.py'
 
 ## What the script actually does
 
-This is an **automated maze-solver + buffer overflow exploit**.
+This is an **automated maze-solver + buffer overflow exploit**
 
-It connects to a remote server, completes a mini-game (maze), then uses a vulnerability to inject shellcode.
+It connects to a remote server, completes a mini-game (maze), then uses a vulnerability to inject shellcode
 
-The shellcode will then start a reverse shell and connect back to the attacker.
+The shellcode will then start a reverse shell and connect back to the attacker
 
-Once exploited, the attacker gains **remote command execution** on the target.
+Once exploited, the attacker gains **remote command execution** on the target
 
 
 # Script 
@@ -26,8 +26,8 @@ maze_size = 3741
 conn = ('104.236.116.183', 9000)
 ```
 
-- **`maze_size`** → size of the maze data in bytes expected from the server.  
-- **`conn`** → the IP and port of the challenge server.  
+- **`maze_size`** → size of the maze data in bytes expected from the server
+- **`conn`** → the IP and port of the challenge server
 
 ---
 
@@ -40,16 +40,16 @@ def shellcode():
     rev2 = b"..."
 ```
 
-- **`bind_shell`** → raw x86 shellcode that opens a bind shell on port `4444`.  
-- **`rev2`** → reverse shell shellcode that connects back to a specific IP and port.  
-- **NOP sleds** (`\x90`) are added before and after to help the shellcode land in memory safely.  
-- At the end:  
+- **`bind_shell`** → raw x86 shellcode that opens a bind shell on port `4444`
+- **`rev2`** → reverse shell shellcode that connects back to a specific IP and port
+- **NOP sleds** (`\x90`) are added before and after to help the shellcode land in memory safely
+- At the end:
   ```python
   b'\xd3\x79\x0b\x08' # address to jump to ECX
   ```
-  is an address in the vulnerable process's memory (little-endian format).  
+  is an address in the vulnerable process's memory (little-endian format)
 
-The function **returns** the complete payload.
+The function **returns** the complete payload
 
 ---
 
@@ -63,8 +63,8 @@ def connect_sock():
     return sock
 ```
 
-- Connects to the target server.
-- Sets non-blocking mode to avoid hanging during reads.
+- Connects to the target server
+- Sets non-blocking mode to avoid hanging during reads
 
 ```python
 def read_sock(sock, size):
@@ -82,13 +82,13 @@ def read_sock(sock, size):
     return data
 ```
 
-- Reads exactly `size` bytes from the socket, retrying if no data is ready (`EAGAIN`).
+- Reads exactly `size` bytes from the socket, retrying if no data is ready (`EAGAIN`)
 
 ---
 
 ## 4. Maze Solver
 
-Uses **recursive depth-first search (DFS)** to find the path.
+Uses **recursive depth-first search (DFS)** to find the path
 
 ```python
 def solve_maze(y, x, maze):
@@ -152,9 +152,9 @@ def parse_maze(data):
     return maze
 ```
 
-- Converts ASCII maze into a 2D grid of numbers.  
-- Maze is **43 × 43 tiles**, each tile taking 2 bytes in ASCII form.  
-- Bottom-right corner is marked as the exit.
+- Converts ASCII maze into a 2D grid of numbers
+- Maze is **43 × 43 tiles**, each tile taking 2 bytes in ASCII form
+- Bottom-right corner is marked as the exit
 
 ---
 
@@ -182,12 +182,12 @@ if __name__ == "__main__":
 ```
 
 **Step-by-step:**
-1. Connects to the server.
-2. Reads the maze data.
-3. Parses the maze into a 2D grid.
-4. Solves it from starting point `(0, 1)`.
-5. Sends the movement string to the server.
-6. Reads additional response data.
-7. Sends the shellcode payload.
-8. Prepares to connect to the shell (commented out).
+1. Connects to the server
+2. Reads the maze data
+3. Parses the maze into a 2D grid
+4. Solves it from starting point `(0, 1)`
+5. Sends the movement string to the server
+6. Reads additional response data
+7. Sends the shellcode payload
+8. Prepares to connect to the shell
 
